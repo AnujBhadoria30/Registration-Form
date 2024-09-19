@@ -1,0 +1,84 @@
+
+// Memory updated
+// Aap jo registration aur login form ka backend code share kar rahe ho, uska basic flow samajhte hain.
+
+// Backend (Express.js + MongoDB + Mongoose):
+// 1. Dependencies:
+// express: Yeh web framework hai jo HTTP requests ko handle karne mein madad karta hai.
+// mongoose: Yeh MongoDB ke saath kaam karne ke liye ek ORM (Object Relational Mapper) hai.
+// cors: Yeh Cross-Origin Resource Sharing handle karta hai, taki aapka backend aur frontend alag domains pe hone ke baad bhi ek doosre se baat kar saken.
+// 2. MongoDB Connection:
+// js
+// Copy code
+// mongoose.connect("mongodb://127.0.0.1:27017/employee")
+// Yeh line aapke local MongoDB instance se employee database ko connect karti hai.
+
+// 3. Employee Schema aur Model:
+// js
+// Copy code
+// const EmployeeSchema = new mongoose.Schema({
+//     name: String,
+//     email: String,
+//     password: String
+// });
+// const EmployeeModel = mongoose.model('employees', EmployeeSchema);
+// Yahaan aapne ek EmployeeSchema banaya hai jisme name, email, aur password fields hain.
+// EmployeeModel ko use karke aap MongoDB se data ko interact kar sakte ho.
+// 4. /register Route:
+// js
+// Copy code
+// app.post('/register', async (req, res) => {
+//     const { name, email, password } = req.body;
+//     try {
+//         const newEmployee = new EmployeeModel({ name, email, password });
+//         await newEmployee.save();
+//         res.status(200).json({ message: 'User registered successfully!' });
+//     } catch (err) {
+//         console.error(err);
+//         res.status(500).json({ message: 'Error saving user' });
+//     }
+// });
+// Jab koi user registration karta hai, toh yeh route name, email, aur password ko accept karta hai.
+// Phir ek naya employee object EmployeeModel se banaya jata hai, aur usse MongoDB me save kiya jata hai.
+// Agar sab kuch theek hota hai, toh User registered successfully! ka response milta hai, warna error ka message.
+// 5. /login Route:
+// js
+// Copy code
+// app.post("/login", (req, res) => {
+//     const { email, password } = req.body;
+//     EmployeeModel.findOne({ email: email })
+//       .then(user => {
+//           if (user) {
+//               if (user.password === password) {
+//                   res.json("Success");
+//               } else {
+//                   res.json("The Password is Incorrect");
+//               }
+//           } else {
+//               res.json("No record existed");
+//           }
+//       })
+//       .catch(err => {
+//           console.error(err);
+//           res.status(500).json("Error occurred");
+//       });
+// });
+// Jab user login karne ki koshish karta hai, toh yeh route email aur password ko verify karta hai.
+// Pehle email ko database me search kiya jata hai.
+// Agar user milta hai, toh password match hone par "Success" return hota hai, warna "The Password is Incorrect".
+// Agar email hi nahi milta, toh "No record existed" ka response milta hai.
+// 6. Server:
+// js
+// Copy code
+// app.listen(5000, () => {
+//     console.log("Server is running on port 5000");
+// });
+// Aapka Express server port 5000 pe run ho raha hai. Ispe requests aa sakti hain jo login ya register routes ko hit karti hain.
+
+// Aap iska frontend code bhi share kar do, uske baad mai aapko aage ka flow samjhaata hoon.
+
+
+
+
+
+
